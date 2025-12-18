@@ -8,7 +8,9 @@ public class Main {
     static String[] commodities = {"Gold", "Oil", "Silver", "Wheat", "Copper"};
     static String[] months = {"January","February","March","April","May","June",
                               "July","August","September","October","November","December"};
+
     
+    static int[][][] data = new int[MONTHS][DAYS][COMMS];
 
     public static void loadData() {
         for (int month = 0; month < MONTHS; month++) {
@@ -41,9 +43,9 @@ public class Main {
         String[] parts = line.split(",");
         if (parts.length == 3) {
             try {
-                int day = Integer.parseInt(parts[0]) - 1;
-                String commodityName = parts[1];
-                int profit = Integer.parseInt(parts[2]);
+                int day = Integer.parseInt(parts[0].trim()) - 1; 
+                String commodityName = parts[1].trim();
+                int profit = Integer.parseInt(parts[2].trim());
                 
                 int commodityIndex = getCommodityIndex(commodityName);
                 if (commodityIndex != -1 && day >= 0 && day < DAYS) {
@@ -64,7 +66,7 @@ public class Main {
         return -1;
     }
 
-
+    
     public static String mostProfitableCommodityInMonth(int month) {
         return "DUMMY"; 
     }
