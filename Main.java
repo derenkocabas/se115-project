@@ -11,6 +11,57 @@ public class Main {
     
 
     public static void loadData() {
+        for (int month = 0; month < MONTHS; month++) {
+            String filename = "Data_Files/" + months[month] + ".txt";
+            try {
+                Scanner scanner = new Scanner(new File(filename));
+
+                
+                if (scanner.hasNextLine()) {
+                    String firstLine = scanner.nextLine().trim();
+                    if (!firstLine.equals("Day,Commodity,Profit")) {
+                        processDataLine(firstLine, month);
+                    }
+                }
+                
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine().trim();
+                    if (!line.isEmpty()) {
+                        processDataLine(line, month);
+                    }
+                }
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                
+            }
+        }
+    }
+
+    private static void processDataLine(String line, int month) {
+        String[] parts = line.split(",");
+        if (parts.length == 3) {
+            try {
+                int day = Integer.parseInt(parts[0]) - 1;
+                String commodityName = parts[1];
+                int profit = Integer.parseInt(parts[2]);
+                
+                int commodityIndex = getCommodityIndex(commodityName);
+                if (commodityIndex != -1 && day >= 0 && day < DAYS) {
+                    data[month][day][commodityIndex] = profit;
+                }
+            } catch (NumberFormatException e) {
+                
+            }
+        }
+    }
+
+    private static int getCommodityIndex(String name) {
+        for (int i = 0; i < commodities.length; i++) {
+            if (commodities[i].equals(name)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 
