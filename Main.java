@@ -68,12 +68,34 @@ public class Main {
 
     
     public static String mostProfitableCommodityInMonth(int month) {
-        return "DUMMY"; 
+        if (month < 0 || month >= MONTHS) return "INVALID_MONTH";
+
+        int maxProfit = Integer.MIN_VALUE;
+        int bestComm = -1;
+        for (int c = 0; c < COMMS; c++) {
+            int total = 0;
+            for (int d = 0; d < DAYS; d++) {
+                total += data[month][d][c];
+            }
+            if (total > maxProfit) {
+                maxProfit = total;
+                bestComm = c;
+            }
+        }
+        return commodities[bestComm] + " " + maxProfit;
     }
 
+    
     public static int totalProfitOnDay(int month, int day) {
-        return 1234;
+        if (month < 0 || month >= MONTHS || day < 1 || day > DAYS) return -99999;
+
+        int total = 0;
+        for (int c = 0; c < COMMS; c++) {
+            total += data[month][day - 1][c];
+        }
+        return total;
     }
+
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
         return 1234;
