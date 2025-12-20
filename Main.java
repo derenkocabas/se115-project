@@ -98,15 +98,57 @@ public class Main {
 
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
-        return 1234;
+        int cIdx = getCommodityIndex(commodity);
+        if (cIdx == -1 || from < 1 || to > DAYS || from > to) return -99999;
+
+        int totalProfit = 0;
+        for (int m = 0; m < MONTHS; m++) {
+            for (int d = from - 1; d < to; d++) {
+                totalProfit += data[m][d][cIdx];
+            }
+        }
+        return totalProfit;
     }
 
-    public static int bestDayOfMonth(int month) { 
-        return 1234; 
-    }
     
-    public static String bestMonthForCommodity(String comm) { 
-        return "DUMMY"; 
+    public static int bestDayOfMonth(int month) {
+        if (month < 0 || month >= MONTHS) return -1;
+
+        int bestDay = -1;
+        int maxProfit = Integer.MIN_VALUE;
+
+        for (int d = 0; d < DAYS; d++) {
+            int dailyTotal = 0;
+            for (int c = 0; c < COMMS; c++) {
+                dailyTotal += data[month][d][c];
+            }
+            if (dailyTotal > maxProfit) {
+                maxProfit = dailyTotal;
+                bestDay = d + 1;
+            }
+        }
+        return bestDay;
+    }
+
+    
+    public static String bestMonthForCommodity(String comm) {
+        int idx = getCommodityIndex(comm);
+        if (idx == -1) return "INVALID_COMMODITY";
+
+        int bestMonthIndex = -1;
+        int maxProfit = Integer.MIN_VALUE;
+
+        for (int m = 0; m < MONTHS; m++) {
+            int monthlyTotal = 0;
+            for (int d = 0; d < DAYS; d++) {
+                monthlyTotal += data[m][d][idx];
+            }
+            if (monthlyTotal > maxProfit) {
+                maxProfit = monthlyTotal;
+                bestMonthIndex = m;
+            }
+        }
+        return months[bestMonthIndex];
     }
 
     public static int consecutiveLossDays(String comm) { 
